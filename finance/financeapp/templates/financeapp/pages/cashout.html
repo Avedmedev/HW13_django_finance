@@ -1,0 +1,22 @@
+{% extends "financeapp/base.html" %}
+
+{% block content %}
+
+<div class="container" style="padding: 10px">
+        <div class="row justify-content-center mb-3">
+        <h1>Add cash out</h1>
+    </div>
+    <div class="row justify-content-center">
+        <form class="col-sm-6" action="{% url 'financeapp:cashout' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-error">{{ form.non_field_errors }}</div>
+            {% for f in form %}
+            <div class="form-error"><label class="form-label" for="{{ f.id_for_label }}">{{ f.label }}: </label>{{ f }}</div>
+            <div class="form-error">{{ f.errors }}</div>
+            {% endfor %}
+        <button type="submit">Commit</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

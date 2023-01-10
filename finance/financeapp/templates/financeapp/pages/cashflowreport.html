@@ -1,0 +1,48 @@
+{% extends "financeapp/base.html" %}
+
+{% block content %}
+
+    <div>
+        <form action="{% url 'financeapp:cashflowreport' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% for f in form %}
+            <div style="display: flex"><label class="form-label" style="width: 160px"
+                                              for="{{ f.id_for_label }}">{{ f.label }}: </label>{{ f }}</div>
+            {% endfor %}
+            <div><button type="submit">Generate a report</button></div>
+        </form>
+    </div>
+<div class="container" style="padding: 10px">
+    <div class="row justify-content-center mb-3">
+        <h1>CashFlow Report</h1>
+    </div>
+        <p class="d-flex flex-column align-items-center justify-content-center bg-secondary"
+            style="height: 30px">
+        </p>
+
+    <div class="row row-cols-1 row-cols-md-3 gx-4 text-center">
+                  <div class="col-md-2 themed-grid-col">Date</div>
+                  <div class="col-md-3 themed-grid-col">Contractor</div>
+                  <div class="col-md-3 themed-grid-col">Description</div>
+                  <div class="col-md-2 themed-grid-col">Category</div>
+                  <div class="col-md-2 themed-grid-col">CashFlow</div>
+    </div>
+    <div class="row row-cols-1 row-cols-md-3 gx-4 text-center">
+                  <div class="col-md-10 themed-grid-col" style="text-align: left; font-weight: bold;">Total</div>
+                  <div class="col-md-2 themed-grid-col" style="font-weight: bold;">{{ total }}</div>
+    </div>
+    {% if reportdata %}
+        {% for data in reportdata %}
+    <div class="row row-cols-1 row-cols-md-3 gx-4 text-center
+                {% if data.type == 0.0 %}cashout{% elif data.type == 1.0 %}cashin{% endif %}">
+                  <div class="col-md-2 themed-grid-col">{{data.date|date:"M, d, Y"}}</div>
+                  <div class="col-md-3 themed-grid-col">{{data.contractor}}</div>
+                  <div class="col-md-3 themed-grid-col">{{data.description}}</div>
+                  <div class="col-md-2 themed-grid-col">{{data.category}}</div>
+                  <div class="col-md-2 themed-grid-col">{{data.cashflow}}</div>
+    </div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+{% endblock %}

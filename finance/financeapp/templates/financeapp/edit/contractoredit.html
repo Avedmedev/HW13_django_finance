@@ -1,0 +1,22 @@
+{% extends "financeapp/base.html" %}
+
+{% block content %}
+
+<div class="container" style="padding: 10px">
+        <div class="row justify-content-center mb-3">
+        <h1>Contractors</h1>
+    </div>
+    <div class="row justify-content-center">
+        <form class="col-sm-6" action="{% url 'financeapp:contractoredit' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-error">{{ form.non_field_errors }}</div>
+            <div class="form-error"><label class="form-label" for="{{ form.name.id_for_label }}">{{ form.name.label }}:
+            </label>{{ form.name }}
+            </div>
+            <div class="form-error">{{ form.name.errors }}</div>
+        <button type="submit">Add</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

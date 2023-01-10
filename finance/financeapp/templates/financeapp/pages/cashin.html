@@ -1,0 +1,49 @@
+{% extends "financeapp/base.html" %}
+
+{% block content %}
+
+<div class="container" style="padding: 10px">
+        <div class="row justify-content-center mb-3">
+        <h1>Add cash in</h1>
+    </div>
+    <div class="row justify-content-center">
+        <form class="col-sm-6" action="{% url 'financeapp:cashin' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-error">{{ form.non_field_errors }}</div>
+            <div class="form-error"><label class="form-label" for="{{ form.cashin.id_for_label }}">{{ form.cashin.label }}:
+            </label>{{ form.cashin }}
+            </div>
+            <div class="form-error">{{ form.cashin.errors }}</div>
+            <div class="form-error"><label class="form-label" for="{{ form.contractor.id_for_label }}">{{ form.contractor.label }}:
+            </label><div  style="display: flex">{{ form.contractor }}
+                <a class="related-widget-wrapper-link add-related"
+                   data-popup="yes"
+                   href="{% url 'financeapp:contractoredit' %}"
+                   title="Add another contractor">
+                    <img src="/static/admin/img/icon-addlink.svg" alt="Add" style="width: 25px;">
+                </a>
+                </div>
+            </div>
+            <div class="form-error">{{ form.contractor.errors }}</div>
+            <div class="form-error"><label class="form-label"
+                                           for="{{ form.cashin_category.id_for_label }}">{{ form.cashin_category.label }}:
+            </label><div  style="display: flex">{{ form.cashin_category }}
+                <a class="related-widget-wrapper-link add-related"
+                   data-popup="yes"
+                   href="{% url 'financeapp:catinedit' %}"
+                   title="Add another category">
+                    <img src="/static/admin/img/icon-addlink.svg" alt="Add" style="width: 25px;">
+                </a>
+                </div>
+            </div>
+            <div class="form-error">{{ form.cashin_category.errors }}</div>
+            <div class="form-error"><label class="form-label" for="{{ form.description.id_for_label }}">{{ form.description.label }}:
+            </label>{{ form.description }}
+            </div>
+            <div class="form-error">{{ form.description.errors }}</div>
+        <button type="submit">Commit</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
