@@ -8,8 +8,8 @@ from django.shortcuts import render, redirect
 # Create your views here.
 from django.views.generic import ListView
 
-from .forms import CashInForm, CashOutForm, ReportForm, ContractorForm
-from .models import CashOut, CashIn
+from .forms import CashInForm, CashOutForm, ReportForm, ContractorForm, CashInCategoriesForm, CashOutCategoriesForm
+from .models import CashOut, CashIn, ContractorUser, UserCashInCategories, UserCashOutCategories
 from .utils import get_user_current_balance, set_user_current_balance, get_report_data, get_total_for_report, \
     get_report_data_orm, get_total_for_report_orm
 
@@ -130,14 +130,54 @@ def contractor_edit(request):
         if not form.is_valid():
             return render(request, 'financeapp/edit/contractoredit.html', context={'form': form})
 
+        contractor = form.save()
+
+        contractor_user = ContractorUser(contractor=contractor, user=request.user)
+        contractor_user.save()
+
+        if 'referer' in request.session:
+            return redirect(request.session['referer'])
+
+        return redirect(to='financeapp:cashin')
+
+    request.session['referer'] = request.META.get('HTTP_REFERER')
+
     return render(request, 'financeapp/edit/contractoredit.html', context={'form': ContractorForm()})
 
 
 @decorators.login_required
 def cat_in_edit(request):
-    return render(request, 'financeapp/edit/catinedit.html', context={})
+
+    if request.method == "POST":
+        form = CashInCategoriesForm(request.POST)
+
+        if not form.is_valid():
+            return render(request, 'financeapp/edit/catinedit.html', context={'form': form})
+
+        catincat = form.save()
+
+        catincat_user = UserCashInCategories(cash_in_category=catincat, user=request.user)
+        catincat_user.save()
+
+        return redirect(to='financeapp:cashin')
+
+    return render(request, 'financeapp/edit/catinedit.html', context={'form': CashInCategoriesForm()})
 
 
 @decorators.login_required
 def cat_out_edit(request):
-    return render(request, 'financeapp/edit/catoutedit.html', context={})
+
+    if request.method == "POST":
+        form = CashOutCategoriesForm(request.POST)
+
+        if not form.is_valid():
+            return render(request, 'financeapp/edit/catoutedit.html', context={'form': form})
+
+        catoutcat = form.save()
+
+        catoutcat_user = UserCashOutCategories(cash_out_category=catoutcat, user=request.user)
+        catoutcat_user.save()
+
+        return redirect(to='financeapp:cashout')
+
+    return render(request, 'financeapp/edit/catoutedit.html', context={'form': CashOutCategoriesForm()})

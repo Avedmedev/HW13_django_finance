@@ -86,6 +86,7 @@ def get_report_data_orm(user, filterdata: dict) -> QuerySet:
             return q
 
 
+""" non useful functions """
 def get_total_for_report(data: List[tuple]) -> float:
     total = float()
     for row in data:

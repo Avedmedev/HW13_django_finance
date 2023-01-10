@@ -3,7 +3,7 @@ import datetime
 from django import forms
 from django.contrib.admin import widgets
 
-from .models import CashIn, CashOut, Contractor
+from .models import CashIn, CashOut, Contractor, CashInCategories, CashOutCategories
 
 
 class CashInForm(forms.ModelForm):
@@ -34,12 +34,21 @@ class ReportForm(forms.Form):
 
 
 class ContractorForm(forms.ModelForm):
-    name = forms.ModelMultipleChoiceField(
-        widget=widgets.FilteredSelectMultiple(verbose_name='Contractors', is_stacked=True),
-        queryset=Contractor.objects.all()
-    )
 
     class Meta:
         model = Contractor
-        fields = ['name']
-        # name = forms.MultiValueField
+        exclude = ("",)
+
+
+class CashInCategoriesForm(forms.ModelForm):
+
+    class Meta:
+        model = CashInCategories
+        exclude = ("",)
+
+
+class CashOutCategoriesForm(forms.ModelForm):
+
+    class Meta:
+        model = CashOutCategories
+        exclude = ("",)

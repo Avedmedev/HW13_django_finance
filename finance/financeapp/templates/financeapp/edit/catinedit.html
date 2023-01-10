@@ -2,8 +2,24 @@
 
 {% block content %}
 
-    <div style="padding: 10px">
-        <h1>Main Page</h1>
+<div class="container" style="padding: 10px">
+        <div class="row justify-content-center mb-3">
+        <h1>Add cashin category</h1>
     </div>
+    <div class="row justify-content-center">
+        <form class="col-sm-6" action="{% url 'financeapp:catinedit' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% for f in form %}
+            <div class="form-error">{{ form.non_field_errors }}</div>
+            <div class="form-error"><label class="form-label" for="{{ f.id_for_label }}">{{ f.label }}:
+            </label>{{ f }}
+            </div>
+            <div class="form-error">{{ f.errors }}</div>
+            {% endfor %}
+        <button type="submit">Add</button>
+        </form>
+    </div>
+</div>
+
 
 {% endblock %}

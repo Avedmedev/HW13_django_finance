@@ -58,9 +58,6 @@ class CashIn(models.Model):
     def __str__(self):
         return f"{str(self.cashin)} from {self.contractor.name} on {self.date}"
 
-    # TODO add function trigger on transacted_make_true date must be updated.
-    #  see django docs
-
 
 class CashOut(models.Model):
     cashout = models.FloatField()
@@ -73,9 +70,6 @@ class CashOut(models.Model):
 
     def __str__(self):
         return f"{self.cashout} hrn to {self.contractor.name} on {self.date}"
-
-    # TODO add function trigger on transacted_make_true date must be updated.
-    #  see django docs
 
 
 class Balance(models.Model):
