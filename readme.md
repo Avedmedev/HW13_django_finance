@@ -7,4 +7,6 @@
 пароль 12345
 
 
+docker image with data
+docker pull avedmedev/postgres_hw13_django
 пароль к базе postgres - 12345
